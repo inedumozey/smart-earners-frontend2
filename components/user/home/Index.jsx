@@ -14,13 +14,12 @@ export default function Index({userInfo}) {
   const {user} = state.auth;
 
   useEffect(()=>{
-    setLoading(true)
     dispatch(getUser())
 
     setTimeout(()=>{
       user.isLoading ? setLoading(true) : setLoading(false)
-    }, 1000)
-  })
+    }, 3000)
+  }, [])
 
 
 
@@ -35,16 +34,15 @@ export default function Index({userInfo}) {
     ) :
     (
       //check if empty
-
-      user.data ?
+      !user.data ?
      
       (
-          <div style={{textAlign: 'center'}}>No Data Currently Available</div>
+          <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>No Data Currently Available</div>
       ):
       (
         <UserWrapper>
           {/* <DashboardHeader /> */}
-          display data here
+            display user's dashborad data here
         </UserWrapper>
       )
     )    

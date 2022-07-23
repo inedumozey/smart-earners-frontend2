@@ -13,12 +13,9 @@ import { CopyRight } from '../../../styles/globalStyle';
 export default function SideMenuModal({showMenu, setShowMenu, navLinks, userInfo}) {
     
     const closeMenu =(e)=>{
-        console.log(e.target.className)
-        // if(e.target.className.includes('mobile-menu')){
-        //      setShowMenu(false)
-        // }else{
-        //     return;
-        // }
+        if(e.target === e.currentTarget){
+             setShowMenu(false)
+        }
 
      }
      const closeMenu2 =(e)=>{
@@ -41,7 +38,7 @@ export default function SideMenuModal({showMenu, setShowMenu, navLinks, userInfo
 
   return (
     <SideMenuModal_ className='mobile-menu' show={showMenu} onClick={closeMenu} >
-        <SideMenuModalContainer userInfo={userInfo} show={showMenu} width='350px' top='0' >
+        <SideMenuModalContainer userInfo={userInfo} show={showMenu} >
             <div style={{position: 'absolute', right: '10px', top: '10px'}}>
                 <ToggleMenu onClick={closeMenu2} className="mobile-menu togglemenu-wrapper">
                     {showMenu ? <MdClose className='togglemenu'/> : <MdMenu className='togglemenu' />}
@@ -90,8 +87,8 @@ function SideMenu({navLinks, userInfo, showMenu, setShowMenu}) {
         </SideMenuRow2>
 
         <SideMenuRow3>
-            <div style={{color: '#fff'}} className="nav">
-                <NavAuthBtn setShowMenu={setShowMenu} shrink={true} userInfo={userInfo} />
+            <div className="nav">
+                <NavAuthBtn setShowMenu={setShowMenu} userInfo={userInfo} />
             </div>
             <CopyRight>
                 &copy; {new Date().getFullYear() > 2022 ? '2021 - ' + new Date().getFullYear() : 2022} Smart Earners
@@ -125,9 +122,9 @@ const SideMenuModalContainer = styled.div`
     transition: all .5s;
     transform: translateX(${({show})=>show ? 0 : '-150%'});
     position: fixed;
-    top: ${({top})=>top};
+    top: 0;
     bottom: 0;
-    width: ${({width})=>width};
+    width: 220px;
     left: 0;
 
     .content{
@@ -200,10 +197,11 @@ const SideMenuRow2 = styled.div`
 const SideMenuRow3 = styled.div`
     height: 70px;
 
-
     .nav {
         height: 70%;
-        color: #fff;
+        display: flex;
+        justify-content: flex-end;
+        padding-right: 20px;
     }
     
 `

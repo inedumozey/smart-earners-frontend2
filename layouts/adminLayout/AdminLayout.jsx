@@ -1,13 +1,56 @@
 import React, {useRef, useState, useEffect} from 'react'
-import Header_ from '../../components/admin/header/Header';
+import Header_ from './Header';
 import styled from 'styled-components';
-import SideMenu_ from '../../components/admin/sideMenu/SideMenu';
-import { ScrollBar } from '../../styles/globalStyle';
-import { MdClose, MdMenu} from 'react-icons/md'
+import SideMenu_ from './SideMenu';
 import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
-import Modal from '../../components/modals/popUpModal/PopUpModal';
-import {useToggle} from '@mozeyinedu/hooks-lab'
+
+
+
+export default function AdminLayout({children, userInfo, toggleState}) {
+    const [showMenuLargeScreen, setShowMenuLargeScreen] = useState(false)
+    const [showMenuSmallScreen, setShowMenuSmallScreen] = useState(false)
+
+    return (
+      <>
+        <Header>
+          <Header_
+            userInfo={userInfo}
+            setShowMenuLargeScreen={setShowMenuLargeScreen}
+            showMenuLargeScreen={showMenuLargeScreen}
+            setShowMenuSmallScreen={setShowMenuSmallScreen}
+            showMenuSmallScreen={showMenuSmallScreen}
+          />
+        </Header>
+
+        <Main>
+          <SideBarWrapper toggleState={toggleState} showMenuSmallScreen={showMenuSmallScreen} showMenuLargeScreen={showMenuLargeScreen}>
+
+              <div className="toggle-btn">
+                  <div onClick={()=>setShowMenuLargeScreen(!showMenuLargeScreen)} className="toggle toggle-large-screen">
+                      {
+                          showMenuLargeScreen ? <NavigateNextIcon /> : < NavigateBeforeIcon/>
+                      }
+                  </div>
+
+                  <div onClick={()=>setShowMenuSmallScreen(!showMenuSmallScreen)} className="toggle toggle-small-screen">
+                      {
+                          showMenuSmallScreen ? <NavigateBeforeIcon /> : <NavigateNextIcon />
+                      }
+                  </div>
+
+              </div>
+              <SideMenu_ />
+          </SideBarWrapper>
+
+          <MainWrapper toggleState={toggleState}>
+              {children}
+          </MainWrapper>
+        </Main>   
+      </>
+    )
+}
+
 
 const Header = styled.div`
   position: fixed;
@@ -27,7 +70,7 @@ const Main = styled.div`
    
   }
 `
-const SideBarSmall = styled.div`
+const SideBarWrapper = styled.div`
   width: 170px;
   position: fixed;
   transform: translateX(0%);
@@ -44,64 +87,60 @@ const SideBarSmall = styled.div`
     font-size: 2.5rem;
   }
 
-  .toggle{
-    border-radius: 50%;
-    width: 35px;
-    height: 35px;
+  .toggle-btn{
+    width: 100%;
+    height: 60px;
     display: flex;
-    justify-content: center;
+    justify-content: flex-end;
     align-items: center;
-    position: absolute;
-    right: 0;
-    cursor: pointer;
-    display: none;
+    position: relative
   }
 
-  @media (max-width: 980px){
-    transform: ${({expanded})=>expanded ? 'translateX(0%)' : 'translateX(-80%)'};
+  .toggle{
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    cursor: pointer;
+    color: #fff;
+    background: var(--major-color-purest);
 
-    .toggle{
-      display: block;
+}
+
+.toggle-large-screen{
+    display: flex;
+
+    @media (max-width: 980px){
+        display: none;
     }
+}
+
+.toggle-small-screen{
+    display: flex;
+
+    @media (min-width: 980px){
+        display: none;
+    }
+}
+
+  transform: ${({showMenuLargeScreen})=>showMenuLargeScreen ? 'translateX(0%)' : 'translateX(-80%)'};
+
+
+  @media (max-width: 980px){
+    transform: ${({showMenuSmallScreen})=>showMenuSmallScreen ? 'translateX(0%)' : 'translateX(-120%)'};
   }
 `
 
 const MainWrapper = styled.div`
   background: ${({toggleState})=>toggleState ? 'var(--light-theme)' : 'var(--dark-theme)'};
   height: 100%;
-  padding-top: 60px;;
-  padding-left: 175px;
-
+  transition: .3d;
+  padding-top: 60px;
+  margin-left: 35px;
   @media (max-width: 980px){
-    padding-left: 40px
+    margin-left: 0
   }
 
 `
-
-
-export default function AdminLayout({children, userInfo, toggleState}) {
-    const [expanded, setExpanded] = useState(true);
-
-    return (
-      <>
-        <Header>
-          <Header_ userInfo={userInfo}/>
-        </Header>
-
-        <Main>
-          <SideBarSmall toggleState={toggleState} expanded={expanded}>
-            <div  onClick={()=>setExpanded(!expanded)} className="toggle">
-              {
-                expanded ? <NavigateNextIcon className='icon'/> : <NavigateBeforeIcon className='icon'/>
-              }
-            </div>
-              <SideMenu_ />
-          </SideBarSmall>
-
-          <MainWrapper toggleState={toggleState}>
-              {children}
-          </MainWrapper>
-        </Main>   
-      </>
-    )
-}

@@ -212,23 +212,6 @@ const MainLayoutStyle = styled.div`
   height: 100vh;
 `
 
-const MovingInfoWrapper = styled.div`
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    position: relative;
-    animation: slide 6s infinite;
-
-    @keyframes slide {
-      0%{
-        left: 100%
-      }
-
-      100%{
-        left: -100%
-      }
-    }
-`
 const LandCard = styled.div`
     
 `
@@ -254,7 +237,6 @@ export {
   SectionText,
   MainLayoutStyle,
   ScrollBar,
-  MovingInfoWrapper,
   LandCard,
   CopyRight
 };

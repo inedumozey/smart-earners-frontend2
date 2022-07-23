@@ -1,5 +1,4 @@
 import React from 'react'
-import { NavBtn } from './styles'
 import {useDispatch} from 'react-redux'
 import {useRouter} from 'next/router'
 import { logout } from '../../redux/auth/auth.js'
@@ -7,8 +6,10 @@ import Link from 'next/link';
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
+import styled from 'styled-components'
 
-export default function NavAuthBtn({ userInfo, stick, shrink, setShowMenu, portriat}) {
+
+export default function NavAuthBtn({ userInfo, setShowMenu, portriat}) {
     const dispatch = useDispatch();
     const router = useRouter();
     const path = router.pathname;
@@ -21,7 +22,7 @@ export default function NavAuthBtn({ userInfo, stick, shrink, setShowMenu, portr
         }, 500)
     }
     return (
-        <NavBtn shrink={shrink} stick={stick} portriat={portriat}>
+        <NavBtn portriat={portriat}>
         {
             userInfo.refreshtoken ? 
             (
@@ -32,16 +33,16 @@ export default function NavAuthBtn({ userInfo, stick, shrink, setShowMenu, portr
                             return (
                                 <>
                                     <Link href='/admin' passHref>
-                                        <a onClick={()=>setShowMenu(false)} className='nav-btn admin'>
+                                        <a title="Admin" onClick={()=>setShowMenu(false)} className='admin'>
                                             <AdminPanelSettingsIcon />
                                         </a>
                                     </Link>
-                                    <a onClick={handleLogout} className='nav-btn logout' >Logout</a>
+                                    <a onClick={handleLogout}>Logout</a>
                                 </>
                             )
                         }else{
                             return (
-                                <a onClick={handleLogout} className='nav-btn logout' >Logout</a>
+                                <a onClick={handleLogout}>Logout</a>
                             )
                         }
                     }
@@ -49,11 +50,11 @@ export default function NavAuthBtn({ userInfo, stick, shrink, setShowMenu, portr
                         return (
                             <>
                                  <Link  href='/dashboard'  passHref>
-                                    <a onClick={()=>setShowMenu(false)} className='nav-btn dashboard'>
+                                    <a title="Dashboard" onClick={()=>setShowMenu(false)} className='dashboard'>
                                         <AccountCircleIcon />
                                     </a>
                                  </Link>
-                                <a onClick={handleLogout} className='nav-btn logout' >Logout</a>
+                                <a onClick={handleLogout}>Logout</a>
                             </>
                         )
                     }
@@ -63,27 +64,27 @@ export default function NavAuthBtn({ userInfo, stick, shrink, setShowMenu, portr
                             return (
                                 <>
                                     <Link  href='/dashboard'  passHref>
-                                        <a onClick={()=>setShowMenu(false)} className='nav-btn dashboard'>
+                                        <a title="Dashboard" onClick={()=>setShowMenu(false)} className='dashboard'>
                                             <AccountCircleIcon />
                                         </a>
                                     </Link>
                                     <Link href='/admin' passHref>
-                                        <a onClick={()=>setShowMenu(false)} className='nav-btn admin'>
+                                        <a title="Admin" onClick={()=>setShowMenu(false)} className='admin'>
                                             <AdminPanelSettingsIcon />
                                         </a>
                                     </Link>
-                                    <a onClick={handleLogout} className='nav-btn logout' >Logout</a>
+                                    <a onClick={handleLogout} className='logout' >Logout</a>
                                 </>
                             )
                         }else{
                             return (
                                 <>
                                     <Link  href='/dashboard'  passHref>
-                                        <a onClick={()=>setShowMenu(false)} className='nav-btn dashboard'>
+                                        <a title="Dashboard" onClick={()=>setShowMenu(false)} className='dashboard'>
                                             <AccountCircleIcon />
                                         </a>
                                     </Link>
-                                    <a onClick={handleLogout} className='nav-btn logout' >Logout</a>
+                                    <a onClick={handleLogout}>Logout</a>
                                 </>
                             )
                         }
@@ -94,12 +95,11 @@ export default function NavAuthBtn({ userInfo, stick, shrink, setShowMenu, portr
             (
                 <>
                     <Link href='/signup' assHref>
-                        <a onClick={()=>setShowMenu(false)} className={router.asPath === '/signup' ? 'nav-btn signup active' : 'nav-btn signup'}>Sign Up</a>
+                        <a onClick={()=>setShowMenu(false)} className={router.asPath === '/signup' ? 'signup active' : 'nav-btn signup'}>Sign Up</a>
                     </Link>
                     <Link href='/signin' assHref>
-                        <a onClick={()=>setShowMenu(false)} className={router.asPath === '/signin' ? 'nav-btn signup active' : 'nav-btn signup'}>Sign in</a>
+                        <a onClick={()=>setShowMenu(false)} className={router.asPath === '/signin' ? 'signup active' : 'nav-btn signup'}>Sign in</a>
                     </Link>
-                    
                     
                 </>
             )
@@ -107,3 +107,32 @@ export default function NavAuthBtn({ userInfo, stick, shrink, setShowMenu, portr
         </NavBtn>
   )
 }
+
+
+const NavBtn = styled.div`
+    display: flex; 
+    height: 100%;
+    justify-content: center;
+    flex-direction: ${({portriat})=>portriat ? 'column' : 'row'};
+    align-items: ${({portriat})=>portriat ? 'center' : 'center'};
+
+    a {
+        font-weight: bold;
+        padding: 5px 3px;
+        cursor: pointer;
+        color: #fff;
+        
+
+        &: hover {
+            opacity: .5
+        }
+    };
+
+    .dashboard {
+        font-size: 3rem;
+    };
+    .admin {
+        font-size: 3rem;
+        color: var(--bright-color)
+    };
+`

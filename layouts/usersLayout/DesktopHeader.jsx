@@ -4,35 +4,40 @@ import Link from 'next/link';
 import {useState, useEffect} from 'react'
 import {useRouter} from 'next/router';
 import { MdClose, MdMenu} from 'react-icons/md';
-import HomeIcon from '@mui/icons-material/Home';
-import PermContactCalendarIcon from '@mui/icons-material/PermContactCalendar';
-import MenuBookIcon from '@mui/icons-material/MenuBook';
-import LocalPoliceIcon from '@mui/icons-material/LocalPolice';
-import BalanceIcon from '@mui/icons-material/Balance';
-import HelpIcon from '@mui/icons-material/Help';
 import { ToggleMenu } from '../../styles/globalStyle';
 const logo = '/onboadinglogo.png';
 import NavAuthBtn from '../../components/navAuthBtn/NavAuthBtn'
 import SideMenuModal from '../../components/modals/sideMenuModal/SideMenuModal';
+import HomeIcon from '@mui/icons-material/Home';
+import SavingsIcon from '@mui/icons-material/Savings';
+import CreditScoreIcon from '@mui/icons-material/CreditScore';
+import CurrencyExchangeIcon from '@mui/icons-material/CurrencyExchange';
+import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
+import PaidIcon from '@mui/icons-material/Paid';
+import PersonIcon from '@mui/icons-material/Person';
+import Notifications from './Notifications';
+import DashboardRoundedIcon from '@mui/icons-material/DashboardRounded';
 
 
-
-export default function Header_({userInfo}) {
+export default function DesktopHeader({userInfo, notificationData, movingInfo}) {
     const [stick, setStick] = useState(false)
     const router = useRouter()
-    const [showMenu, setShowMenu] = useState(false);
+    const [showMenu, setShowMenu] = useState(false)
+    const [isMobile, setIsMobile] = useState(false);
+    const [showNotif, setShowNotif] = useState(false);
+    const [showDropDown, setDropDown] = useState(false)
 
     useEffect(()=>{
         window.onscroll=(e)=>{
-            window.pageYOffset >= 120 ? setStick(true) : setStick(false)
+            window.pageYOffset >= 100 ? setStick(true) : setStick(false)
         }
     }, []) 
 
     const navLinks =[
         {
-            link: 'Home',
-            url: '/',
-            icon: <HomeIcon />
+            link: 'Dashboard',
+            url: '/dashboard',
+            icon: <DashboardRoundedIcon style={{fontSize: '.8rem'}}/>
         },
         {
             link: 'Deposit',
@@ -58,12 +63,25 @@ export default function Header_({userInfo}) {
             link: 'Referral',
             url: '/dashboard/referrals',
             icon: <PeopleAltIcon />
-        }
+        },
+        {
+            link: 'Home',
+            url: '/',
+            icon: <HomeIcon />
+        },
+    ]
+
+    const profileNavLink = [
+        {
+            link: 'Deposit',
+            url: '/dashboard/deposit',
+            icon: <PersonIcon style={{fontSize: '.8rem'}}/>
+        },
     ]
 
 
   return (
-    <Header>
+    <Header stick={stick}>
         <Top>
             {/* toggle for side menu */}
             <ToggleMenu onClick={()=>setShowMenu(!showMenu)} className="togglemenu-wrapper">
@@ -95,25 +113,56 @@ export default function Header_({userInfo}) {
             }
             </div>
 
+            <div className="extralNavLink">
+
+                 {/* profile & dashboard nav link btns */}
+                {
+                profileNavLink.map((link, i)=>{
+                    return (
+                        <Link key={i} href={link.url} passHref>
+                            <a style={{borderRadius: '50%', padding: '2px'}} className={link.url === router.asPath ? 'active-icon link-icon' : 'link-icon'}>{link.icon}</a>
+                        </Link>
+                    )
+                })
+                }
+
+                {/* notifaction btn */}
+                <Notifications showNotif={showNotif} setShowNotif={setShowNotif} setDropDown={setDropDown} notificationData={notificationData}/>
+
+            </div>
+
             {/* signup, signup, logout and dashboard btns*/}
-            <NavAuthBtn setShowMenu={setShowMenu} userInfo={userInfo} />
+            <div className="navAuthBtn">
+                <NavAuthBtn setShowMenu={setShowMenu} userInfo={userInfo} />
+            </div>
+           
+            
         </Top>
 
         <Bottom stick={stick}>
-            <MoveingInfo />
+            <MovingInfo movingInfo={movingInfo}/>
         </Bottom>
 
         {/* sibe menu */}
         
         <SideMenuModal navLinks={navLinks} userInfo={userInfo} showMenu={showMenu} setShowMenu={setShowMenu}/>
+
+        
     </Header>
   )
 }
 
-function MoveingInfo(){
+
+function MovingInfo({movingInfo}){
     return(
         <marquee behavior="smooth" direction="" style={{fontSize: '.8rem'}}>
-            <span style={{color: 'gold'}}>Hello! </span><span>--- Welcome to SmartEarners Investment. --- </span><span style={{color: 'gold'}}>We Trade it, You Learn & Earn it</span>
+            {
+                movingInfo.map((info, i)=>{
+                    <span key={i} style={{marginRight: '5px;'}}>
+                        {info}
+                    </span>
+                })
+            }
         </marquee>
     )
 }
@@ -124,6 +173,9 @@ const Header = styled.div`
     width: 100%;
     height: 90px;
     color: #fff;
+    position: ${({stick})=>stick ? 'fixed' : 'static'};
+    top: ${({stick})=>stick ? '0' : ''};
+    left: ${({stick})=>stick ? '0' : ''};
 `
 
 const Top = styled.div`
@@ -193,6 +245,34 @@ const Top = styled.div`
         @media (max-width: 920px){
             display: none
         };
+    }
+
+    .extralNavLink{
+        display: flex;
+        position: absolute;
+        transition: .3s;
+        right: 20px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #fff;
+
+        @media (min-width: 920px){
+            right: 150px;
+        };
+    }
+
+    .navAuthBtn{
+        right: 20px;
+        top: 50%;
+        position: absolute;
+        transform: translateY(-50%);
+        height: 100%;
+        display: inline-block;
+        
+        @media (max-width: 920px){
+           display: none;
+        };
+    }
 `
 
 const Bottom = styled.div`
@@ -201,8 +281,5 @@ const Bottom = styled.div`
     padding: 0 20px;
     text-align: center;
     box-shadow: 2px 2px 5px #000;
-    position: ${({stick})=>stick ? 'fixed' : 'static'};
-    top: ${({stick})=>stick ? '0' : ''};
-    left: ${({stick})=>stick ? '0' : ''};
     background: var(--major-color-faded);
 `

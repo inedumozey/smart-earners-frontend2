@@ -90,7 +90,9 @@ export default function Header_({userInfo}) {
             </div>
 
             {/* signup, signup, logout and dashboard btns*/}
-            <NavAuthBtn setShowMenu={setShowMenu} userInfo={userInfo} />
+            <div className='navAuthBtn'>
+                <NavAuthBtn setShowMenu={setShowMenu} userInfo={userInfo} />
+            </div>
         </Top>
 
         <Bottom stick={stick}>
@@ -164,6 +166,22 @@ const Top = styled.div`
             transform: translate(-50%, -50%);
         }
     };
+
+    .navAuthBtn{
+        height: 100%;
+        display: flex;
+        position: absolute;
+        transition: .3s;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        align-items: center;
+        justify-content: center;
+
+        @media (max-width: 920px){
+            display: none;
+        }
+    }
 
     .navLink {
         display: flex;
