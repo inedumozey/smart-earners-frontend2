@@ -1,7 +1,7 @@
-import WebConfig from "../../components/admin/web-config/WebConfig";
+import WebConfig_ from "../../components/admin/webConfig/WebConfig";
 
 export default function WebConfig() {
-  return <Config />
+  return <WebConfig_ />
 }
 
 
