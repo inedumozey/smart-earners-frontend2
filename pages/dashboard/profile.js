@@ -7,23 +7,23 @@ const profile = () => {
 }
 
 // handle redirect if user sign up
-// export function getServerSideProps(context){
-//     const cookies = context.req.cookies;
-//     const refreshtoken = cookies.refreshtoken;
+export function getServerSideProps(context){
+    const cookies = context.req.cookies;
+    const refreshtoken = cookies.refreshtoken;
   
-//     if(!refreshtoken){
-//       return {
-//         redirect: {
-//           destination: '/signin',
-//           permanent: false,
-//         },
-//         props: {}
-//       }
-//     }else{
-//       return {
-//         props: {}
-//       }
-//     }
-//   }
+    if(!refreshtoken){
+      return {
+        redirect: {
+          destination: '/signin',
+          permanent: false,
+        },
+        props: {}
+      }
+    }else{
+      return {
+        props: {}
+      }
+    }
+  }
 
 export default profile

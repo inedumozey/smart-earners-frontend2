@@ -43,7 +43,7 @@ export default function Index({userInfo}) {
       ):
       (
         <AdminWrapper>
-          display data here
+          jchchch
         </AdminWrapper>
       )
     )    

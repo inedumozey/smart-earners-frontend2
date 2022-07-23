@@ -13,6 +13,9 @@ export default function DashboardLayout({children, userInfo}) {
   const [isMobile, setIsMobile] = useState(false);
   useEffect(()=>{
       setIsMobile(mobileAndTabletCheck(window))
+
+      setIsMobile(true)
+
   }, [])
 
   const notificationData = [
@@ -75,7 +78,7 @@ export default function DashboardLayout({children, userInfo}) {
         {
           isMobile ?
           <MobileHeader
-              ovingInfo={movingInfo}
+              movingInfo={movingInfo}
               userInfo={userInfo}
               notificationData={notificationData} /> :
           <DesktopHeader

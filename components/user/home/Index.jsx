@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 import {useSelector, useDispatch} from 'react-redux';
 import { UserWrapper } from "./styles";
 import Loader_ from "../loader/Loader";
-import DashboardHeader from "../DashboardHeader.jsx";
 
 
 
@@ -18,7 +17,7 @@ export default function Index({userInfo}) {
 
     setTimeout(()=>{
       user.isLoading ? setLoading(true) : setLoading(false)
-    }, 3000)
+    }, 2000)
   }, [])
 
 
@@ -42,7 +41,7 @@ export default function Index({userInfo}) {
       (
         <UserWrapper>
           {/* <DashboardHeader /> */}
-            display user's dashborad data here
+            display user's dashborad data herejhh
         </UserWrapper>
       )
     )    

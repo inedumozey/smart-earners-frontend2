@@ -39,7 +39,7 @@ export default function Notifications({showNotif, setShowNotif, notificationData
             </Notification>
           ) : ''
         }
-        <div onClick={handleShowNotif} className="closeHandle"></div>
+        {/* <div onClick={handleShowNotif} className="closeHandle"></div> */}
     </NotificationWrapper>
   )
 }
@@ -84,8 +84,8 @@ const Notification = styled.div`
     width: 210px;
     max-height: 450px;
     box-shadow: -1px 2px 6px 1px #333, -2px -2px 3px #333;
-    left: 50%;
-    transform: translateX(-50%);
+    right: 0px;
+    // transform: translateX(-50%);
     top: 30px;
     cursor: default;
     background: #fff;
@@ -96,8 +96,8 @@ const Notification = styled.div`
         content: '';
         width: 10px;
         height: 10px;
-        left: 50%;
-        transform: translateX(-50%) rotate(45deg);
+        right: -20px;
+        transform: rotate(45deg);
         right: 16px;
         top: -5px;
         background: #f1f1f1;

@@ -69,6 +69,7 @@ const BottomNav = styled.div`
     width: 100%;
     box-shadow: -2px -2px 5px #ccc;
     height: 50px;
+    background: #f5f5f5;
     display: flex;
     padding: 0 5px;
     bottom: 0;

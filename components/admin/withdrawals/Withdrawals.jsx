@@ -38,7 +38,7 @@ export default function Withdrawals({userInfo}) {
     (
       //check if empty
 
-      !withdrawals.data ? 
+      withdrawals.data ? 
       (
           <div style={{textAlign: 'center'}}>No Data Currently Available</div>
       ):

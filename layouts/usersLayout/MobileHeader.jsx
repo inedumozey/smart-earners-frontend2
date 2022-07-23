@@ -14,6 +14,7 @@ import PaidIcon from '@mui/icons-material/Paid';
 import PersonIcon from '@mui/icons-material/Person';
 import Notifications from './Notifications';
 import MobileBottom from './MobileBottom';
+import MovingInfo from './MovingInfo';
 
 
 export default function MobileHeader({userInfo, notificationData, movingInfo}) {
@@ -37,8 +38,8 @@ export default function MobileHeader({userInfo, notificationData, movingInfo}) {
             icon: <HomeIcon style={{fontSize: '1.2rem'}}/>
         },
         {
-            link: 'profile',
-            url: '/dashboard/deposit',
+            link: 'Profile',
+            url: '/dashboard/profile',
             icon: <PersonIcon style={{fontSize: '1.2rem'}}/>
         },
     ]
@@ -90,31 +91,12 @@ export default function MobileHeader({userInfo, notificationData, movingInfo}) {
   )
 }
 
-function MovingInfo({movingInfo}){
-    return(
-        <marquee behavior="smooth" direction="" style={{fontSize: '.8rem'}}>
-            {
-                movingInfo.map((info, i)=>{
-                    return(
-                    <span key={i} style={{marginRight: '5px', display: 'inline-block', fontSize: '.8rem'}}>
-                        {info}
-                    </span>
-                    )
-                })
-            }
-        </marquee>
-    )
-}
-
 
 
 const Header = styled.div`
     width: 100%;
     height: 90px;
     color: #fff;
-    position: ${({stick})=>stick ? 'fixed' : 'static'};
-    top: ${({stick})=>stick ? '0' : ''};
-    left: ${({stick})=>stick ? '0' : ''};
 `
 
 const Top = styled.div`
@@ -156,8 +138,12 @@ const Top = styled.div`
 const Bottom = styled.div`
     width: 100%;
     height 25px;
+    z-index: 1000;
     padding: 0 20px;
     text-align: center;
     box-shadow: 2px 2px 5px #000;
     background: var(--major-color-faded);
+    position: ${({stick})=>stick ? 'fixed' : 'static'};
+    top: ${({stick})=>stick ? '0' : ''};
+    left: ${({stick})=>stick ? '0' : ''};
 `
